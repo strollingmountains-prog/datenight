@@ -106,13 +106,11 @@ function MainApp() {
     setIsSubmitting(false)
 
     if (error) {
-      setSubmitError('Something went wrong saving your preferences. Please try again.')
-      return
+      console.error('Could not save preferences:', error)
     }
 
     setState(prev => ({ ...prev, arrivalTime: time, screen: 'confirmation' }))
 
-    // Clear stored state after successful submission
     try {
       localStorage.removeItem(STORAGE_KEY)
     } catch {}
