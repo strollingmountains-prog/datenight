@@ -36,7 +36,7 @@ export default function Screen04Confirmation({ selectedDrink, selectedAmbience, 
         <div className="card p-6 mb-6">
           <div className="flex items-center gap-2 mb-5">
             <div className="divider flex-1" />
-            <span className="section-label px-2">Rinky's Saturday Plan</span>
+            <span className="section-label px-2">Rinki's Saturday Plan</span>
             <div className="divider flex-1" />
           </div>
 
@@ -118,7 +118,7 @@ export default function Screen04Confirmation({ selectedDrink, selectedAmbience, 
         {/* Footer */}
         <div className="text-center">
           <p className="font-playfair text-xl" style={{ color: 'var(--color-gold)' }}>
-            See you Saturday, Rinky! 🌹
+            See you Saturday, Rinki! 🌹
           </p>
           <p className="text-xs mt-2" style={{ color: 'var(--color-muted)' }}>
             Handcrafted with 💛 by Saurabh

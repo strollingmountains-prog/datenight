@@ -126,7 +126,7 @@ export default function Screen01Invitation({ onAccept, onDecline }: Props) {
         <div className="card p-8 md:p-10 text-center">
           {/* Greeting */}
           <h1 className="font-playfair text-4xl md:text-5xl font-medium mb-6" style={{ color: 'var(--color-text)' }}>
-            Hey, Rinky! 👋
+            Hey, Rinki! 👋
           </h1>
 
           <div className="divider w-16 mx-auto mb-6" />

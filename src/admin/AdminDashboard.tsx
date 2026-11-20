@@ -54,7 +54,7 @@ function ResponseDetail({ response, onClose }: { response: DinnerResponse; onClo
             <div>
               <span className="section-label">Response Detail</span>
               <h2 className="font-playfair text-2xl font-medium mt-1" style={{ color: 'var(--color-text)' }}>
-                Rinky's Dinner Preferences
+                Rinki's Dinner Preferences
               </h2>
             </div>
             <button
@@ -276,7 +276,7 @@ export default function AdminDashboard({ onLogout }: Props) {
                 {filter === 'all' ? 'No responses yet' : `No ${filter} responses`}
               </p>
               <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
-                {filter === 'all' ? "Rinky hasn't opened the invitation yet. Share the link to get started!" : 'Try a different filter.'}
+                {filter === 'all' ? "Rinki hasn't opened the invitation yet. Share the link to get started!" : 'Try a different filter.'}
               </p>
             </div>
           ) : (
