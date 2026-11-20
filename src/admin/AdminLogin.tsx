@@ -1,31 +1,22 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
+
+const ADMIN_PASSWORD = 'Admin2024'
 
 interface Props {
   onLogin: () => void
 }
 
 export default function AdminLogin({ onLogin }: Props) {
-  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
-
-    setLoading(false)
-
-    if (authError) {
-      setError('Invalid email or password.')
-      return
+    if (password === ADMIN_PASSWORD) {
+      onLogin()
+    } else {
+      setError('Incorrect password.')
     }
-
-    onLogin()
   }
 
   return (
@@ -43,25 +34,6 @@ export default function AdminLogin({ onLogin }: Props) {
         <div className="card p-8">
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="section-label mb-2 block">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                placeholder="your@email.com"
-                className="w-full py-3 px-4 rounded-xl text-sm outline-none transition-all"
-                style={{
-                  border: '2px solid #E8E0D5',
-                  fontFamily: 'Inter',
-                  color: 'var(--color-text)',
-                }}
-                onFocus={e => e.target.style.borderColor = 'var(--color-gold)'}
-                onBlur={e => e.target.style.borderColor = '#E8E0D5'}
-              />
-            </div>
-
-            <div>
               <label className="section-label mb-2 block">Password</label>
               <input
                 type="password"
@@ -69,6 +41,7 @@ export default function AdminLogin({ onLogin }: Props) {
                 onChange={e => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
+                autoFocus
                 className="w-full py-3 px-4 rounded-xl text-sm outline-none transition-all"
                 style={{
                   border: '2px solid #E8E0D5',
@@ -86,17 +59,8 @@ export default function AdminLogin({ onLogin }: Props) {
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary w-full"
-            >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Signing in...
-                </span>
-              ) : 'Sign In'}
+            <button type="submit" className="btn-primary w-full">
+              Sign In
             </button>
           </form>
         </div>
