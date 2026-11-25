@@ -35,7 +35,7 @@ export async function createInvitationResponse(
   status: InvitationStatus
 ): Promise<{ error: string | null }> {
   return insertOrUpdate(invitationId, {
-    guest_name: 'Rinki',
+    guest_name: 'Arshi',
     invitation_status: status,
     food_menu: FOOD_MENU,
     submitted_at: new Date().toISOString(),

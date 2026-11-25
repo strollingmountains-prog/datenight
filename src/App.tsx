@@ -100,7 +100,7 @@ function MainApp() {
       selectedAmbience: state.selectedAmbience,
       selectedMusic: state.selectedMusic,
       arrivalTime: time,
-      guestName: 'Rinki',
+      guestName: 'Arshi',
     })
 
     setIsSubmitting(false)

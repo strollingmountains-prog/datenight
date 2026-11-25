@@ -48,7 +48,7 @@ export default function Screen02Mood({ selectedDrink, selectedAmbience, selected
         <div className="text-center mb-8">
           <span className="section-label">Dinner · 01 / 02</span>
           <h1 className="font-playfair text-3xl md:text-4xl font-medium mt-3 mb-2" style={{ color: 'var(--color-text)' }}>
-            Let's set the mood, Rinki.
+            Let's set the mood, Arshi.
           </h1>
           <p style={{ color: 'var(--color-muted)' }}>How are we feeling about Saturday evening?</p>
           <div className="divider w-24 mx-auto mt-4" />
