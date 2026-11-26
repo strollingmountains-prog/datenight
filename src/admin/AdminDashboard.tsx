@@ -163,8 +163,7 @@ export default function AdminDashboard({ onLogout }: Props) {
     const { data, error: fetchError } = await getAllResponses()
     setLoading(false)
     if (fetchError) {
-      console.error('getAllResponses error:', fetchError)
-      setError(`Could not load responses: ${fetchError}`)
+      setError('Could not load responses.')
     } else {
       setResponses(data || [])
     }
