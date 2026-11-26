@@ -20,6 +20,8 @@ export interface DinnerPreferences {
   selectedMusic?: MusicOption
   arrivalTime?: string
   guestName: string
+  selectedFood?: string[]
+  specialRequest?: string
 }
 
 export interface DinnerResponse {
@@ -31,11 +33,12 @@ export interface DinnerResponse {
   selected_music?: string
   arrival_time?: string
   food_menu: string[]
+  special_request?: string
   submitted_at: string
   updated_at: string
 }
 
-export const FOOD_MENU = ['Indian Chicken Curry & Rice', 'Butter Garlic Prawns']
+export const FOOD_MENU_OPTIONS = ['Chicken Curry', 'Chicken Kadhai', 'Prawns Butter Garlic', 'Fish Fry']
 
 export const DRINK_OPTIONS: DrinkOption[] = ['Beer', 'Vodka', 'Gin', 'Rum', 'Cocktails']
 

@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import type { DrinkOption, AmbienceOption, MusicOption } from '../types'
-import { ARRIVAL_TIMES, FOOD_MENU } from '../types'
+import { ARRIVAL_TIMES } from '../types'
 
 interface Props {
   selectedDrink: DrinkOption
   selectedAmbience: AmbienceOption
   selectedMusic: MusicOption
+  selectedFood: string[]
   arrivalTime?: string
-  onConfirm: (time: string) => void
+  specialRequest?: string
+  onConfirm: (time: string, specialRequest: string) => void
   isSubmitting: boolean
   submitError?: string
 }
@@ -16,12 +18,15 @@ export default function Screen03Timing({
   selectedDrink,
   selectedAmbience,
   selectedMusic,
+  selectedFood,
   arrivalTime,
+  specialRequest: initialSpecialRequest,
   onConfirm,
   isSubmitting,
   submitError,
 }: Props) {
   const [time, setTime] = useState(arrivalTime || '')
+  const [specialRequest, setSpecialRequest] = useState(initialSpecialRequest || '')
   const [error, setError] = useState('')
 
   const handleConfirm = () => {
@@ -30,7 +35,7 @@ export default function Screen03Timing({
       return
     }
     setError('')
-    onConfirm(time)
+    onConfirm(time, specialRequest)
   }
 
   return (
@@ -106,7 +111,7 @@ export default function Screen03Timing({
               <div>
                 <p className="section-label mb-1">Food</p>
                 <div className="space-y-1">
-                  {FOOD_MENU.map((f) => (
+                  {selectedFood.map((f) => (
                     <p key={f} className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>
                       • {f}
                     </p>
@@ -161,6 +166,31 @@ export default function Screen03Timing({
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Special request */}
+        <div className="card p-6 mb-5">
+          <h2 className="font-playfair text-xl font-medium mb-1" style={{ color: 'var(--color-text)' }}>
+            Any special request for special guest? 💌
+          </h2>
+          <p className="text-sm mb-4" style={{ color: 'var(--color-muted)' }}>
+            Anything you'd like me to know or prepare. Totally optional.
+          </p>
+          <textarea
+            value={specialRequest}
+            onChange={(e) => setSpecialRequest(e.target.value)}
+            placeholder="e.g. I love extra spicy, or no coriander please…"
+            rows={3}
+            className="w-full px-4 py-3 rounded-xl text-sm resize-none"
+            style={{
+              border: '2px solid',
+              borderColor: specialRequest ? 'var(--color-gold)' : '#E8E0D5',
+              background: specialRequest ? 'linear-gradient(135deg, #FDF8F0, #FAF0E0)' : 'white',
+              color: 'var(--color-text)',
+              fontFamily: 'Inter',
+              outline: 'none',
+            }}
+          />
         </div>
 
         {/* Error messages */}

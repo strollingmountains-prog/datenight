@@ -1,14 +1,14 @@
 import type { DrinkOption, AmbienceOption, MusicOption } from '../types'
-import { FOOD_MENU } from '../types'
 
 interface Props {
   selectedDrink: DrinkOption
   selectedAmbience: AmbienceOption
   selectedMusic: MusicOption
   arrivalTime: string
+  selectedFood: string[]
 }
 
-export default function Screen04Confirmation({ selectedDrink, selectedAmbience, selectedMusic, arrivalTime }: Props) {
+export default function Screen04Confirmation({ selectedDrink, selectedAmbience, selectedMusic, arrivalTime, selectedFood }: Props) {
   return (
     <div className="min-h-screen flex items-center justify-center py-10 px-4" style={{ background: 'linear-gradient(145deg, #FAF7F2 0%, #F5EDE0 100%)' }}>
       {/* Background elements */}
@@ -64,7 +64,7 @@ export default function Screen04Confirmation({ selectedDrink, selectedAmbience, 
               <div>
                 <p className="section-label mb-2">Dinner</p>
                 <div className="space-y-1">
-                  {FOOD_MENU.map((f) => (
+                  {selectedFood.map((f) => (
                     <p key={f} className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>
                       • {f}
                     </p>

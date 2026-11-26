@@ -19,6 +19,8 @@ interface AppState {
   selectedAmbience?: AmbienceOption
   selectedMusic?: MusicOption
   arrivalTime?: string
+  selectedFood?: string[]
+  specialRequest?: string
 }
 
 const STORAGE_KEY = 'dinner_invitation_state'
@@ -79,15 +81,15 @@ function MainApp() {
     setState(prev => ({ ...prev, screen: 'declined' }))
   }
 
-  const handleMoodUpdate = (drink: DrinkOption, ambience: AmbienceOption, music: MusicOption) => {
-    setState(prev => ({ ...prev, selectedDrink: drink, selectedAmbience: ambience, selectedMusic: music }))
+  const handleMoodUpdate = (drink: DrinkOption, ambience: AmbienceOption, music: MusicOption, food: string[]) => {
+    setState(prev => ({ ...prev, selectedDrink: drink, selectedAmbience: ambience, selectedMusic: music, selectedFood: food }))
   }
 
   const handleMoodNext = () => {
     setState(prev => ({ ...prev, screen: 'timing' }))
   }
 
-  const handleConfirm = async (time: string) => {
+  const handleConfirm = async (time: string, specialRequest: string) => {
     if (!state.selectedDrink || !state.selectedAmbience || !state.selectedMusic) return
 
     setIsSubmitting(true)
@@ -101,6 +103,8 @@ function MainApp() {
       selectedMusic: state.selectedMusic,
       arrivalTime: time,
       guestName: 'Arshi',
+      selectedFood: state.selectedFood,
+      specialRequest: specialRequest || undefined,
     })
 
     setIsSubmitting(false)
@@ -109,7 +113,7 @@ function MainApp() {
       console.error('Could not save preferences:', error)
     }
 
-    setState(prev => ({ ...prev, arrivalTime: time, screen: 'confirmation' }))
+    setState(prev => ({ ...prev, arrivalTime: time, specialRequest, screen: 'confirmation' }))
 
     try {
       localStorage.removeItem(STORAGE_KEY)
@@ -126,19 +130,22 @@ function MainApp() {
         selectedDrink={state.selectedDrink}
         selectedAmbience={state.selectedAmbience}
         selectedMusic={state.selectedMusic}
+        selectedFood={state.selectedFood}
         onUpdate={handleMoodUpdate}
         onNext={handleMoodNext}
       />
     )
   }
 
-  if (state.screen === 'timing' && state.selectedDrink && state.selectedAmbience && state.selectedMusic) {
+  if (state.screen === 'timing' && state.selectedDrink && state.selectedAmbience && state.selectedMusic && state.selectedFood) {
     return (
       <Screen03Timing
         selectedDrink={state.selectedDrink}
         selectedAmbience={state.selectedAmbience}
         selectedMusic={state.selectedMusic}
+        selectedFood={state.selectedFood}
         arrivalTime={state.arrivalTime}
+        specialRequest={state.specialRequest}
         onConfirm={handleConfirm}
         isSubmitting={isSubmitting}
         submitError={submitError}
@@ -146,13 +153,14 @@ function MainApp() {
     )
   }
 
-  if (state.screen === 'confirmation' && state.selectedDrink && state.selectedAmbience && state.selectedMusic && state.arrivalTime) {
+  if (state.screen === 'confirmation' && state.selectedDrink && state.selectedAmbience && state.selectedMusic && state.arrivalTime && state.selectedFood) {
     return (
       <Screen04Confirmation
         selectedDrink={state.selectedDrink}
         selectedAmbience={state.selectedAmbience}
         selectedMusic={state.selectedMusic}
         arrivalTime={state.arrivalTime}
+        selectedFood={state.selectedFood}
       />
     )
   }

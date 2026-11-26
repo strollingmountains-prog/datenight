@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS public.dinner_responses (
     '7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM',
     '9:30 PM','10:00 PM','10:30 PM','11:00 PM','11:30 PM'
   )),
-  food_menu     JSONB       NOT NULL DEFAULT '["Indian Chicken Curry & Rice","Butter Garlic Prawns"]',
+  food_menu     JSONB       NOT NULL DEFAULT '[]',
+  special_request TEXT,
   submitted_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

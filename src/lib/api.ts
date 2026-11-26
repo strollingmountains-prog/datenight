@@ -1,6 +1,5 @@
 import { supabase } from './supabase'
 import type { DinnerPreferences, DinnerResponse, InvitationStatus } from '../types'
-import { FOOD_MENU } from '../types'
 
 async function insertOrUpdate(
   id: string,
@@ -37,7 +36,7 @@ export async function createInvitationResponse(
   return insertOrUpdate(invitationId, {
     guest_name: 'Arshi',
     invitation_status: status,
-    food_menu: FOOD_MENU,
+    food_menu: [],
     submitted_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   })
@@ -53,7 +52,8 @@ export async function submitPreferences(
     selected_ambience: prefs.selectedAmbience,
     selected_music: prefs.selectedMusic,
     arrival_time: prefs.arrivalTime,
-    food_menu: FOOD_MENU,
+    food_menu: prefs.selectedFood || [],
+    special_request: prefs.specialRequest || null,
     submitted_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   })

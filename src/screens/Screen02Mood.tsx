@@ -1,28 +1,46 @@
 import { useState } from 'react'
 import type { DrinkOption, AmbienceOption, MusicOption } from '../types'
-import { DRINK_OPTIONS, AMBIENCE_OPTIONS, MUSIC_OPTIONS, MUSIC_EMOJIS, FOOD_MENU } from '../types'
+import { DRINK_OPTIONS, AMBIENCE_OPTIONS, MUSIC_OPTIONS, MUSIC_EMOJIS, FOOD_MENU_OPTIONS } from '../types'
 
 interface Props {
   selectedDrink?: DrinkOption
   selectedAmbience?: AmbienceOption
   selectedMusic?: MusicOption
-  onUpdate: (drink: DrinkOption, ambience: AmbienceOption, music: MusicOption) => void
+  selectedFood?: string[]
+  onUpdate: (drink: DrinkOption, ambience: AmbienceOption, music: MusicOption, food: string[]) => void
   onNext: () => void
 }
 
-export default function Screen02Mood({ selectedDrink, selectedAmbience, selectedMusic, onUpdate, onNext }: Props) {
+export default function Screen02Mood({ selectedDrink, selectedAmbience, selectedMusic, selectedFood, onUpdate, onNext }: Props) {
   const [drink, setDrink] = useState<DrinkOption | undefined>(selectedDrink)
   const [ambience, setAmbience] = useState<AmbienceOption | undefined>(selectedAmbience)
   const [music, setMusic] = useState<MusicOption | undefined>(selectedMusic)
+  const [food, setFood] = useState<string[]>(selectedFood || [])
   const [error, setError] = useState('')
 
+  const toggleFood = (item: string) => {
+    setFood(prev => {
+      if (prev.includes(item)) return prev.filter(f => f !== item)
+      if (prev.length >= 2) return prev
+      return [...prev, item]
+    })
+  }
+
   const handleNext = () => {
+    if (food.length !== 2) { setError('Please select exactly 2 food items.'); return }
     if (!drink) { setError('Please choose your drink preference.'); return }
     if (!ambience) { setError('Please choose the ambience.'); return }
     if (!music) { setError('Please choose the music vibe.'); return }
     setError('')
-    onUpdate(drink, ambience, music)
+    onUpdate(drink, ambience, music, food)
     onNext()
+  }
+
+  const FOOD_EMOJIS: Record<string, string> = {
+    'Chicken Curry': '🍛',
+    'Chicken Kadhai': '🍲',
+    'Prawns Butter Garlic': '🍤',
+    'Fish Fry': '🐟',
   }
 
   const AMBIENCE_DESCRIPTIONS: Record<AmbienceOption, string> = {
@@ -56,34 +74,42 @@ export default function Screen02Mood({ selectedDrink, selectedAmbience, selected
 
         {/* A. Food section */}
         <div className="card p-6 mb-5">
-          <h2 className="font-playfair text-xl font-medium mb-4" style={{ color: 'var(--color-text)' }}>
+          <h2 className="font-playfair text-xl font-medium mb-1" style={{ color: 'var(--color-text)' }}>
             First things first. What's on the menu?
           </h2>
+          <p className="text-sm mb-4" style={{ color: 'var(--color-muted)' }}>
+            Pick any two dishes for the evening.
+          </p>
 
-          <div className="space-y-3">
-            {FOOD_MENU.map((item) => (
-              <div
-                key={item}
-                className="flex items-center justify-between p-4 rounded-xl"
-                style={{ background: 'linear-gradient(135deg, #FDF8F0, #FAF0E0)', border: '1px solid var(--color-gold-light)' }}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{item.includes('Chicken') ? '🍛' : '🍤'}</span>
-                  <span className="font-medium" style={{ color: 'var(--color-text)' }}>{item}</span>
-                </div>
-                <span
-                  className="text-xs font-medium px-3 py-1 rounded-full"
-                  style={{ background: 'var(--color-gold-light)', color: 'var(--color-brown)' }}
+          <div className="grid grid-cols-2 gap-3">
+            {FOOD_MENU_OPTIONS.map((item) => {
+              const selected = food.includes(item)
+              const disabled = !selected && food.length >= 2
+              return (
+                <button
+                  key={item}
+                  onClick={() => toggleFood(item)}
+                  disabled={disabled}
+                  className={`option-card text-center py-4 ${selected ? 'selected' : ''}`}
+                  style={{ opacity: disabled ? 0.4 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }}
                 >
-                  Already decided ✓
-                </span>
-              </div>
-            ))}
+                  <div className="text-2xl mb-1">{FOOD_EMOJIS[item]}</div>
+                  <div className="text-sm font-medium" style={{ color: selected ? 'var(--color-brown)' : 'var(--color-text)' }}>
+                    {item}
+                  </div>
+                  {selected && (
+                    <div className="text-xs mt-1" style={{ color: 'var(--color-gold)' }}>✓ Selected</div>
+                  )}
+                </button>
+              )
+            })}
           </div>
 
-          <p className="text-sm mt-4 italic" style={{ color: 'var(--color-muted)' }}>
-            "You did mention you love chicken curry and rice. I was paying attention. 😉"
-          </p>
+          {food.length === 2 && (
+            <p className="text-sm mt-3 text-center" style={{ color: 'var(--color-gold)' }}>
+              ✓ Perfect choice! Two courses selected.
+            </p>
+          )}
         </div>
 
         {/* B. Drinks */}

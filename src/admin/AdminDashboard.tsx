@@ -130,6 +130,15 @@ function ResponseDetail({ response, onClose }: { response: DinnerResponse; onClo
               </div>
             )}
 
+            <div>
+              <p className="section-label mb-1">Special Request</p>
+              {response.special_request ? (
+                <p className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>{response.special_request}</p>
+              ) : (
+                <p className="text-sm" style={{ color: 'var(--color-muted)' }}>None</p>
+              )}
+            </div>
+
             <div className="divider" />
 
             <div>
