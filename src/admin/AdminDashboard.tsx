@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { supabase } from '../lib/supabase'
 import { getAllResponses } from '../lib/api'
 import type { DinnerResponse } from '../types'
 
@@ -172,8 +171,7 @@ export default function AdminDashboard({ onLogout }: Props) {
 
   useEffect(() => { fetchResponses() }, [fetchResponses])
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
+  const handleLogout = () => {
     onLogout()
   }
 
