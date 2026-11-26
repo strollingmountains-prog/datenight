@@ -133,7 +133,7 @@ export default function Screen01Invitation({ onAccept, onDecline }: Props) {
 
           {/* Main message */}
           <p className="text-lg leading-relaxed mb-4" style={{ color: 'var(--color-text)', fontFamily: 'Inter' }}>
-            Since you finally decided to go out with Saurabh, he'd like to host you this Saturday, 21st November.
+            Since you finally decided to go out with Saurabh, he'd like to host you this Saturday, 28th November.
           </p>
 
           <p className="text-base leading-relaxed mb-6" style={{ color: 'var(--color-muted)' }}>
@@ -151,7 +151,7 @@ export default function Screen01Invitation({ onAccept, onDecline }: Props) {
           <div className="flex justify-center gap-6 mb-8">
             <div className="text-center">
               <p className="section-label mb-1">Date</p>
-              <p className="font-medium" style={{ color: 'var(--color-text)' }}>Saturday, 21 November 2026</p>
+              <p className="font-medium" style={{ color: 'var(--color-text)' }}>Saturday, 28 November 2026</p>
             </div>
             <div className="w-px" style={{ background: 'var(--color-gold-light)' }} />
             <div className="text-center">

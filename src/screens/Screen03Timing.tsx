@@ -101,7 +101,7 @@ export default function Screen03Timing({
           </div>
 
           <p className="text-center text-sm font-medium mb-5" style={{ color: 'var(--color-gold)' }}>
-            Saturday, 21 November 2026
+            Saturday, 28 November 2026
           </p>
 
           <div className="space-y-4">
@@ -171,15 +171,15 @@ export default function Screen03Timing({
         {/* Special request */}
         <div className="card p-6 mb-5">
           <h2 className="font-playfair text-xl font-medium mb-1" style={{ color: 'var(--color-text)' }}>
-            Any special request for special guest? 💌
+            Any special requests for tonight? 🌙
           </h2>
           <p className="text-sm mb-4" style={{ color: 'var(--color-muted)' }}>
-            Anything you'd like me to know or prepare. Totally optional.
+            Whisper your wish… 🫦 Just between you and the evening.
           </p>
           <textarea
             value={specialRequest}
             onChange={(e) => setSpecialRequest(e.target.value)}
-            placeholder="e.g. I love extra spicy, or no coriander please…"
+            placeholder="e.g. Don't let the night end too soon. And maybe sit a little closer than necessary 😈"
             rows={3}
             className="w-full px-4 py-3 rounded-xl text-sm resize-none"
             style={{

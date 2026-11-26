@@ -42,7 +42,7 @@ export default function Screen04Confirmation({ selectedDrink, selectedAmbience, 
 
           <div className="text-center mb-5">
             <span className="text-sm font-medium px-4 py-2 rounded-full" style={{ background: 'var(--color-gold-light)', color: 'var(--color-brown)' }}>
-              Saturday, 21 November 2026
+              Saturday, 28 November 2026
             </span>
           </div>
 
