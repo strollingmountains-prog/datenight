@@ -21,9 +21,16 @@ export default function Screen01Invitation({ onAccept, onDecline }: Props) {
   const noButtonRef = useRef<HTMLButtonElement>(null)
   const msgIndexRef = useRef(0)
   const shakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const angleRef = useRef(Math.random() * Math.PI * 2)
+  const animFrameRef = useRef<number | null>(null)
+  const orbitingRef = useRef(false)
 
   useEffect(() => {
     setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+      if (shakeTimeoutRef.current) clearTimeout(shakeTimeoutRef.current)
+    }
   }, [])
 
   const getNextDodgeMessage = () => {
@@ -32,51 +39,44 @@ export default function Screen01Invitation({ onAccept, onDecline }: Props) {
     return msg
   }
 
-  const dodgeButton = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  const startOrbit = useCallback(() => {
+    if (orbitingRef.current) return
+    orbitingRef.current = true
+
     const btn = noButtonRef.current
     if (!btn) return
 
-    const container = btn.parentElement
-    if (!container) return
+    const w = btn.offsetWidth
+    const h = btn.offsetHeight
 
-    const containerRect = container.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
+    btn.style.position = 'fixed'
+    btn.style.transition = 'none'
+    btn.style.zIndex = '100'
+    btn.style.width = `${w}px`
+    btn.style.height = `${h}px`
 
-    const margin = 20
-    const maxX = containerRect.width - btnRect.width - margin
-    const maxY = containerRect.height - btnRect.height - margin
-
-    // Pick a position far from the cursor
-    const cursorX = e.clientX - containerRect.left
-    const cursorY = e.clientY - containerRect.top
-
-    let newX = Math.random() * maxX
-    let newY = Math.random() * maxY
-
-    // Ensure the new position is far enough from cursor
-    const minDist = 150
-    let attempts = 0
-    while (attempts < 20) {
-      const dx = newX - cursorX
-      const dy = newY - cursorY
-      if (Math.sqrt(dx * dx + dy * dy) > minDist) break
-      newX = Math.random() * maxX
-      newY = Math.random() * maxY
-      attempts++
+    const tick = () => {
+      angleRef.current += 0.025
+      const cx = window.innerWidth / 2
+      const cy = window.innerHeight / 2
+      const radius = Math.min(window.innerWidth, window.innerHeight) * 0.35
+      const x = cx + radius * Math.cos(angleRef.current) - w / 2
+      const y = cy + radius * Math.sin(angleRef.current) - h / 2
+      if (btn) {
+        btn.style.left = `${x}px`
+        btn.style.top = `${y}px`
+      }
+      animFrameRef.current = requestAnimationFrame(tick)
     }
 
-    btn.style.position = 'absolute'
-    btn.style.left = `${Math.max(margin, Math.min(newX, maxX))}px`
-    btn.style.top = `${Math.max(margin, Math.min(newY, maxY))}px`
-    btn.style.transition = 'left 0.15s ease, top 0.15s ease'
-
+    animFrameRef.current = requestAnimationFrame(tick)
     setDodgeMessage(getNextDodgeMessage())
-    setDeclineCount(prev => prev + 1)
-
-    if (declineCount >= 4) {
-      setShowDeclineOption(true)
-    }
-  }, [declineCount])
+    setDeclineCount(prev => {
+      const next = prev + 1
+      if (next >= 4) setShowDeclineOption(true)
+      return next
+    })
+  }, [])
 
   const handleMobileTap = useCallback(() => {
     const btn = noButtonRef.current
@@ -177,10 +177,10 @@ export default function Screen01Invitation({ onAccept, onDecline }: Props) {
               Yes, I'm in! ❤️
             </button>
 
-            {/* No button — dodges on desktop hover, bounces on mobile tap */}
+            {/* No button — orbits on desktop hover, bounces on mobile tap */}
             <button
               ref={noButtonRef}
-              onMouseEnter={isMobile ? undefined : dodgeButton}
+              onMouseEnter={isMobile ? undefined : startOrbit}
               onClick={isMobile ? handleMobileTap : undefined}
               className="w-full py-3 px-6 rounded-full text-sm font-medium transition-all duration-200"
               style={{
